@@ -5,4 +5,10 @@ $(function(){
       scrollToElement: '#scrollToElement'
     });
   });
+  $('.sample_link2').on('click', function(){
+    $('.sample_link2').smoothScroll({
+      speed: 300,
+      scrollToElement: '#scrollToElement2'
+    });
+  });
 });

@@ -1,17 +1,40 @@
-(function($){
-  $.fn.smoothScroll = function(options){
+// ; is for safety, for previous plugins and/or unclosed javascript
 
-    var defaults = {
-      speed : 2000,
-      scrollToElement : ''
+;
+(function($, window, document) {
+
+  var pluginName = 'smoothScroll',
+    defaults = {
+      speed: 2000,
+      scrollToElement: ''
     };
 
-    var settings = $.extend({},defaults,options);
+  //Plugin Constructor
+  function SmoothScroll(options) {
+    this.options = $.extend({}, defaults, options);
 
-    if(settings.scrollToElement !== ''){
-      var scrollTop = $(settings.scrollToElement).offset().top;
-      $("html, body").animate({scrollTop:scrollTop}, settings.speed);
-    }
+    // Private variables
+    this._default = defaults;
+    this._pluginName = pluginName;
 
+    // Run Initializer
+    this.init();
   }
-}(jQuery));
+
+  SmoothScroll.prototype.init = function() {
+    _scroll(this);
+  };
+
+  function _scroll(el){
+    if(el.options.scrollToElement !== '') {
+      var scrollTop = $(el.options.scrollToElement).offset().top;
+      $("html, body").animate({scrollTop: scrollTop}, el.options.speed);
+    }
+  }
+  $.fn[pluginName] = function(options) {
+    return this.each(function() {
+        new SmoothScroll(options);
+    });
+  }
+
+}(jQuery, window, document));
